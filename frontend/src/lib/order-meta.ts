@@ -7,8 +7,12 @@ export const SHIPMENT_STATUS_META: Record<ShipmentStatus, { label: string; dot: 
 }
 
 export function formatDateTime(timestamp: string): string {
-  // SQLite CURRENT_TIMESTAMP is UTC without a timezone suffix.
-  const date = new Date(timestamp.includes('T') ? timestamp : timestamp.replace(' ', 'T') + 'Z')
+  // SQLite CURRENT_TIMESTAMP is UTC without a timezone suffix, and is returned
+  // with a space instead of "T". Treat both forms as UTC so the displayed time
+  // does not shift with the viewer's local timezone.
+  const normalised = timestamp.includes('T') ? timestamp : timestamp.replace(' ', 'T')
+  const hasTimezone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(normalised)
+  const date = new Date(hasTimezone ? normalised : `${normalised}Z`)
   return date.toLocaleString('en-GB')
 }
 
