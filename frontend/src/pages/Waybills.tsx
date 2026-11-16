@@ -39,7 +39,6 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
       if (currentRequest !== requestId.current) return
       setShipments(rows)
       setInventory(items)
-      setPage((current) => Math.min(current, Math.max(1, Math.ceil(rows.length / PAGE_SIZE))))
     } catch (cause) {
       if (currentRequest === requestId.current) {
         const message = cause instanceof ApiError ? cause.message : 'Unable to load data'
@@ -82,6 +81,8 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
   ).sort((left, right) => right.id - left.id)
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const currentPage = Math.min(page, totalPages)
+  // Keep the fallback page selected if a later refresh adds matching rows again.
+  if (page !== currentPage) setPage(currentPage)
   const rows = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   return (
