@@ -1,36 +1,26 @@
 # Logistics Management System
 
-**COMP3500SEF course project | Seven-member team**
+**COMP3500SEF Course Project** · **7-Member Team**
 
-This project aims to build a web application for managing shipments, inventory,
-hubs, delivery confirmation and tracking enquiries. The intended
-course outcome is a working MVP supported by requirements, design, implementation
-and testing evidence.
+🚚 A web application for managing **shipments**, **inventory**, **hubs**, delivery confirmation and tracking enquiries.
 
-## Current status
+🎯 Goal: A working MVP supported by requirements, design, implementation and testing evidence.
 
-The React frontend and Python backend share SQLite persistence for login,
-inventory, shipment creation and status updates. Remaining logistics modules
-are still planned.
+## 📊 Current Status
 
-| Component | Available now | Work still planned |
-| --- | --- | --- |
-| Frontend | React/TypeScript screens for sign in, orders, inventory and waybills, connected to Python/SQLite | Remaining logistics modules |
-| Backend | Python standard-library HTTP server with SQLite users, password hashing and schema v1.2 persistence | Production session management and role permissions |
-| Database | SQLite schema v1.2 (`users`, `hubs`, `items`, `shipments`, `shipment_items`, `tracking_events`), Hong Kong seed data, migration and backup tools | Database selection beyond SQLite |
-| Tests | Python HTTP API tests and freight examples; frontend API workflow tests against Python/SQLite | Automated browser regression tests |
-| Delivery | Source files, team documentation, Dockerfile and GitHub Actions build/test workflow | Deployment and release automation |
+🚀 The React frontend and Python backend share SQLite persistence for login, inventory, shipment creation and status updates. Remaining logistics modules are still planned.
 
-The backend loads `database/schema.sql` into SQLite on first start.
-Automatic initialization requires an unversioned database with no user-defined
-schema objects. An incomplete database or unsupported schema version stops startup
-before the server listens or adds the demo account, preserving existing data.
-Back up and inspect a rejected database; startup does not repair or rebuild it.
-The frontend calls the same API under `/api`. Orders and waybills show the same
-`shipments` records. Creating a waybill deducts stock in one SQLite transaction;
-status options match schema v1.2: `pending`, `shipped`, `delivered`.
-The backend adds a `demo` user with a salted PBKDF2 password hash on first start
-if that account is missing, including for existing v1.1 databases.
+| Component | Status | Available now | Work still planned |
+| :--- | :---: | :--- | :--- |
+| Frontend | 🟡 In Progress | React/TypeScript screens for sign in, orders, inventory and waybills, connected to Python/SQLite | Remaining logistics modules |
+| Backend | 🟡 In Progress | Python standard-library HTTP server with SQLite users, password hashing and schema v1.2 persistence | Production session management and role permissions |
+| Database | 🟢 Done | SQLite schema v1.2 (`users`, `hubs`, `items`, `shipments`, `shipment_items`, `tracking_events`), Hong Kong seed data, migration and backup tools | Database selection beyond SQLite |
+| Tests | 🟡 In Progress | Python HTTP API tests and freight examples; frontend API workflow tests against Python/SQLite | Automated browser regression tests |
+| Delivery | 🟢 Done | Source files, team documentation, Dockerfile and GitHub Actions build/test workflow | Deployment and release automation |
+
+> ⚠️ **Backend Note:** Loads `database/schema.sql` into SQLite on first start. Automatic initialization requires an unversioned database with no user-defined schema objects. An incomplete database or unsupported schema version stops startup before the server listens or adds the demo account, preserving existing data. Back up and inspect a rejected database; startup does not repair or rebuild it.
+
+> ℹ️ **Frontend & DB Note:** The frontend calls the same API under `/api`. Orders and waybills show the same `shipments` records. Creating a waybill deducts stock in one SQLite transaction; status options match schema v1.2: `pending`, `shipped`, `delivered`. The backend adds a `demo` user with a salted PBKDF2 password hash on first start if that account is missing, including for existing v1.1 databases.
 
 ## Documentation
 
@@ -47,33 +37,33 @@ if that account is missing, including for existing v1.1 databases.
 - [Manual test plan](docs/ui/docs/test/test-cases.md): current workflow cases and
   future feature blockers; execution results are not yet recorded.
 
-## Repository layout
+## 📦 Repository Layout
 
 ```text
 .
-├── .github/
+├── .github/ 🔧
 │   ├── pull_request_template.md
-│   └── workflows/
+│   └── workflows/ 🔄
 │       └── ci.yml
 ├── .gitignore
-├── Dockerfile
-├── README.md
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-├── CODE.md
-├── docs/
-│   └── PROJECT.md
-├── frontend/
-│   ├── src/
-│   ├── tests/
-│   └── package.json
-├── backend/
-│   └── server.py
-├── database/
-│   └── schema.sql
-└── tests/
-    ├── test_backend.py
-    └── test_example.py
+├── Dockerfile 🐳
+├── README.md 📄
+├── CONTRIBUTING.md 🤝
+├── CODE_OF_CONDUCT.md 📜
+├── CODE.md 💻
+├── docs/ 📚
+│   └── PROJECT.md 📝
+├── frontend/ 🎨
+│   ├── src/ ⚛️
+│   ├── tests/ 🧪
+│   └── package.json 📦
+├── backend/ ⚙️
+│   └── server.py 🐍
+├── database/ 🗄️
+│   └── schema.sql 🛢️
+└── tests/ 🧪
+├── test_backend.py 🐍
+└── test_example.py 🐍
 ```
 
 ## Run the examples locally
