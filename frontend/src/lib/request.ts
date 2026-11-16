@@ -29,7 +29,7 @@ function parseBody(text: string): unknown {
 
 function errorMessage(payload: unknown, status: number): string {
   if (typeof payload === 'object' && payload !== null && 'error' in payload
-      && typeof payload.error === 'string') {
+      && typeof payload.error === 'string' && payload.error.trim()) {
     return payload.error
   }
   return `Request failed (HTTP ${status})`
@@ -56,11 +56,13 @@ export async function request<T>(url: string, options: RequestOptions = {}): Pro
   // backend can answer with a non-JSON 401, which must not leave the user
   // signed in with a stale token.
   if (response.status === 401 && url !== '/auth/login') {
-    useAuthStore.getState().logout()
-    window.location.href = '/login'
+    const session = useAuthStore.getState()
+    if (session.token === token) {
+      session.logout()
+      window.location.href = '/login'
+    }
     throw new ApiError(401, 'Session expired. Please sign in again')
   }
-
   let text: string
   try {
     text = await response.text()
@@ -71,6 +73,10 @@ export async function request<T>(url: string, options: RequestOptions = {}): Pro
 
   if (!response.ok) {
     throw new ApiError(response.status, errorMessage(payload, response.status))
+  }
+  // The frontend API methods all require a JSON payload, including successful writes.
+  if (payload === null) {
+    throw new ApiError(response.status, `Expected a JSON payload (HTTP ${response.status})`)
   }
   return payload as T
 }

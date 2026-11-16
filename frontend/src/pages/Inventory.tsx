@@ -73,7 +73,7 @@ export default function Inventory() {
           <div key={label} className="rounded-lg border border-border bg-card p-4">
             <div className="ui-label">{label}</div>
             {loading ? <Skeleton className="mt-3 h-8 w-16" /> :
-              <div className="font-display mt-3 text-3xl font-semibold">{value.toLocaleString('en-GB')}</div>}
+              <div className="font-display mt-3 text-3xl font-semibold">{error ? '—' : value.toLocaleString('en-GB')}</div>}
           </div>
         ))}
       </div>

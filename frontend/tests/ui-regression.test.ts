@@ -64,15 +64,38 @@ describe('request layer', () => {
     assert.equal(fakeLocation.href, '/orders')
   })
 
+  it('keeps a newer session when a request made with the old token returns 401', async () => {
+    const user = { id: 4, username: 'demo', role: 'admin' }
+    useAuthStore.getState().setAuth('old-token', user)
+    stubFetch(() => {
+      useAuthStore.getState().setAuth('new-token', user)
+      return respond(401)
+    })
+    await assert.rejects(request('/items'), (error: unknown) => error instanceof ApiError && error.code === 401)
+    assert.equal(useAuthStore.getState().token, 'new-token')
+    assert.equal(fakeLocation.href, '/orders')
+  })
+
   it('reports an HTTP error instead of throwing a JSON parse error on a bad gateway', async () => {
     stubFetch(() => respond(502, '<html>Bad Gateway</html>'))
     await assert.rejects(request('/items'), (error: unknown) =>
       error instanceof ApiError && error.code === 502 && error.message === 'Request failed (HTTP 502)')
   })
 
-  it('tolerates an empty successful response body', async () => {
-    stubFetch(() => respond(200, ''))
-    assert.equal(await request('/health'), null)
+  it('rejects a successful data response with a missing or malformed JSON payload', async () => {
+    for (const body of ['', '<html>Maintenance</html>', 'null']) {
+      stubFetch(() => respond(200, body))
+      await assert.rejects(request('/items'), (error: unknown) =>
+        error instanceof ApiError && error.code === 200 && error.message.includes('JSON'))
+    }
+  })
+
+  it('reports a missing payload when a catalogue request returns no content', async () => {
+    for (const status of [204, 205]) {
+      stubFetch(() => respond(status))
+      await assert.rejects(request('/items'), (error: unknown) =>
+        error instanceof ApiError && error.code === status && error.message.includes('JSON'))
+    }
   })
 
   it('maps a network failure to a connection error', async () => {
@@ -83,15 +106,16 @@ describe('request layer', () => {
 })
 
 describe('timestamp formatting', () => {
-  it('treats both SQLite and ISO forms without a suffix as UTC', () => {
-    assert.equal(
-      formatDateTime('2026-10-26 09:30:00'),
-      formatDateTime('2026-10-26T09:30:00Z'),
-    )
-    assert.equal(
-      formatDateTime('2026-10-26T09:30:00'),
-      formatDateTime('2026-10-26 09:30:00'),
-    )
+  it('displays UTC timestamps correctly in a non-UTC timezone', (t) => {
+    const previousZone = process.env.TZ
+    process.env.TZ = 'Asia/Hong_Kong'
+    t.after(() => {
+      if (previousZone === undefined) delete process.env.TZ
+      else process.env.TZ = previousZone
+    })
+    const expected = new Date('2026-10-26T09:30:00Z').toLocaleString('en-GB')
+    assert.equal(formatDateTime('2026-10-26 09:30:00'), expected)
+    assert.equal(formatDateTime('2026-10-26T09:30:00'), expected)
   })
 
   it('respects an explicit timezone offset', () => {
