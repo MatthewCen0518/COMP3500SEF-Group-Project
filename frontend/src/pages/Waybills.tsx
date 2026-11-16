@@ -22,6 +22,7 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
   const [shipments, setShipments] = useState<Shipment[]>([])
   const [inventory, setInventory] = useState<InventoryItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [createOpen, setCreateOpen] = useState(false)
   const [updatingId, setUpdatingId] = useState<number | null>(null)
   const [keyword, setKeyword] = useState('')
@@ -32,14 +33,17 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
   const load = useCallback(async () => {
     const currentRequest = ++requestId.current
     setLoading(true)
+    setError(null)
     try {
       const [rows, items] = await Promise.all([shipmentApi.list(), inventoryApi.list()])
       if (currentRequest !== requestId.current) return
       setShipments(rows)
       setInventory(items)
-    } catch (error) {
+    } catch (cause) {
       if (currentRequest === requestId.current) {
-        toast.error(error instanceof ApiError ? error.message : 'Unable to load data')
+        const message = cause instanceof ApiError ? cause.message : 'Unable to load data'
+        setError(message)
+        toast.error(message)
       }
     } finally {
       if (currentRequest === requestId.current) setLoading(false)
@@ -77,6 +81,8 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
   ).sort((left, right) => right.id - left.id)
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const currentPage = Math.min(page, totalPages)
+  // Keep the fallback page selected if a later refresh adds matching rows again.
+  if (page !== currentPage) setPage(currentPage)
   const rows = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   return (
@@ -90,7 +96,7 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
           <Button variant="secondary" onClick={load} disabled={loading}>
             <RefreshCw className="mr-2 h-4 w-4" />Refresh
           </Button>
-          <Button onClick={() => setCreateOpen(true)} disabled={loading}>
+          <Button onClick={() => setCreateOpen(true)} disabled={loading || (error !== null && inventory.length === 0)}>
             <Plus className="mr-2 h-4 w-4" />New waybill
           </Button>
         </div>
@@ -105,7 +111,7 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
           <div key={label} className="rounded-lg border border-border bg-card p-4">
             <div className="ui-label">{label}</div>
             {loading ? <Skeleton className="mt-3 h-8 w-16" /> :
-              <div className="font-display mt-3 text-3xl font-semibold">{value}</div>}
+              <div className="font-display mt-3 text-3xl font-semibold">{error ? '—' : value}</div>}
           </div>
         ))}
       </div>
@@ -140,12 +146,20 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
               <TableRow key={row}>{Array.from({ length: 6 }, (_, cell) =>
                 <TableCell key={cell}><Skeleton className="h-4 w-full max-w-28" /></TableCell>)}</TableRow>
             ))}
-            {!loading && rows.length === 0 && (
+            {!loading && error && (
+              <TableRow><TableCell colSpan={6} className="h-40 text-center">
+                <FileText className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />
+                <div className="font-medium">Could not load shipments</div>
+                <div className="mt-1 text-xs text-muted-foreground">{error}</div>
+                <Button variant="secondary" size="sm" className="mt-3" onClick={load}>Retry</Button>
+              </TableCell></TableRow>
+            )}
+            {!loading && !error && rows.length === 0 && (
               <TableRow><TableCell colSpan={6} className="h-40 text-center">
                 <FileText className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />No matching shipments
               </TableCell></TableRow>
             )}
-            {!loading && rows.map((shipment) => (
+            {!loading && !error && rows.map((shipment) => (
               <TableRow key={shipment.id}>
                 <TableCell className="font-display font-medium text-primary">{shipment.tracking_number}</TableCell>
                 <TableCell>{shipment.items.map((item, index) => (
@@ -177,7 +191,7 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
             ))}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-between border-t border-border px-4 py-3">
+        {!error && <div className="flex items-center justify-between border-t border-border px-4 py-3">
           <span className="text-xs text-muted-foreground">{filtered.length} shipments · Page {currentPage} of {totalPages}</span>
           <div className="flex gap-2">
             <Button variant="secondary" size="sm" disabled={currentPage <= 1 || loading}
@@ -185,7 +199,7 @@ export default function Waybills({ title = 'Waybills' }: { title?: string }) {
             <Button variant="secondary" size="sm" disabled={currentPage >= totalPages || loading}
               onClick={() => setPage(currentPage + 1)}>Next</Button>
           </div>
-        </div>
+        </div>}
       </div>
       <CreateWaybillDialog open={createOpen} inventory={inventory} onOpenChange={setCreateOpen} onCreated={load} />
     </div>
@@ -207,9 +221,29 @@ function CreateWaybillDialog({ open, inventory, onOpenChange, onCreated }: Creat
   const [receiverPhone, setReceiverPhone] = useState('')
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(false)
+  const draftId = useRef(0)
   const item = inventory.find((entry) => entry.sku === sku)
   const qty = Number(quantity)
   const insufficient = Boolean(item) && qty > (item?.stock_quantity ?? 0)
+
+  const resetForm = useCallback(() => {
+    setSku('')
+    setQuantity('')
+    setReceiverName('')
+    setReceiverPhone('')
+    setAddress('')
+  }, [])
+
+  // The dialog stays mounted between openings. Every close path (Cancel,
+  // Escape, overlay click and the close icon) calls onOpenChange, so clear the
+  // draft there instead of showing a cancelled form on the next waybill.
+  const handleOpenChange = useCallback((next: boolean) => {
+    if (!next) {
+      draftId.current++
+      resetForm()
+    }
+    onOpenChange(next)
+  }, [onOpenChange, resetForm])
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
@@ -218,6 +252,7 @@ function CreateWaybillDialog({ open, inventory, onOpenChange, onCreated }: Creat
       toast.error('Select a SKU and enter a positive quantity, receiver, phone and address')
       return
     }
+    const submittedDraft = draftId.current
     setLoading(true)
     try {
       const shipment = await shipmentApi.create({
@@ -229,8 +264,8 @@ function CreateWaybillDialog({ open, inventory, onOpenChange, onCreated }: Creat
         delivery_address: address.trim(),
       })
       toast.success(`Waybill ${shipment.tracking_number} created. Stock deducted: ${qty}`)
-      setSku(''); setQuantity(''); setReceiverName(''); setReceiverPhone(''); setAddress('')
-      onOpenChange(false)
+      // A user can dismiss this request and start another draft while it is pending.
+      if (submittedDraft === draftId.current) handleOpenChange(false)
       onCreated()
     } catch (error) {
       toast.error(error instanceof ApiError ? error.message : 'Unable to create waybill')
@@ -240,7 +275,7 @@ function CreateWaybillDialog({ open, inventory, onOpenChange, onCreated }: Creat
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-xl bg-card">
         <DialogHeader>
           <DialogTitle>New waybill</DialogTitle>
@@ -283,7 +318,7 @@ function CreateWaybillDialog({ open, inventory, onOpenChange, onCreated }: Creat
               onChange={(event) => setAddress(event.target.value)} className={inputCls} />
           </div>
           <DialogFooter className="col-span-2 mt-2">
-            <Button type="button" variant="secondary" onClick={() => onOpenChange(false)}>Cancel</Button>
+            <Button type="button" variant="secondary" onClick={() => handleOpenChange(false)}>Cancel</Button>
             <Button type="submit" disabled={loading || insufficient || !user}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {loading ? 'Submitting…' : 'Create and deduct stock'}

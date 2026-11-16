@@ -14,17 +14,21 @@ export default function Inventory() {
   const [keyword, setKeyword] = useState('')
   const [list, setList] = useState<InventoryItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const requestId = useRef(0)
 
   const load = useCallback(async () => {
     const currentRequest = ++requestId.current
     setLoading(true)
+    setError(null)
     try {
       const data = await inventoryApi.list()
       if (currentRequest === requestId.current) setList(data)
-    } catch (error) {
+    } catch (cause) {
       if (currentRequest === requestId.current) {
-        toast.error(error instanceof ApiError ? error.message : 'Unable to load inventory')
+        const message = cause instanceof ApiError ? cause.message : 'Unable to load inventory'
+        setError(message)
+        toast.error(message)
       }
     } finally {
       if (currentRequest === requestId.current) setLoading(false)
@@ -69,7 +73,7 @@ export default function Inventory() {
           <div key={label} className="rounded-lg border border-border bg-card p-4">
             <div className="ui-label">{label}</div>
             {loading ? <Skeleton className="mt-3 h-8 w-16" /> :
-              <div className="font-display mt-3 text-3xl font-semibold">{value.toLocaleString('en-GB')}</div>}
+              <div className="font-display mt-3 text-3xl font-semibold">{error ? '—' : value.toLocaleString('en-GB')}</div>}
           </div>
         ))}
       </div>
@@ -88,12 +92,20 @@ export default function Inventory() {
               <TableRow key={row}>{Array.from({ length: 4 }, (_, cell) =>
                 <TableCell key={cell}><Skeleton className="h-4 w-full max-w-28" /></TableCell>)}</TableRow>
             ))}
-            {!loading && filtered.length === 0 && (
+            {!loading && error && (
+              <TableRow><TableCell colSpan={4} className="h-40 text-center">
+                <Boxes className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />
+                <div className="font-medium">Could not load inventory</div>
+                <div className="mt-1 text-xs text-muted-foreground">{error}</div>
+                <Button variant="secondary" size="sm" className="mt-3" onClick={load}>Retry</Button>
+              </TableCell></TableRow>
+            )}
+            {!loading && !error && filtered.length === 0 && (
               <TableRow><TableCell colSpan={4} className="h-40 text-center">
                 <Boxes className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />No matching inventory records
               </TableCell></TableRow>
             )}
-            {!loading && filtered.map((item) => (
+            {!loading && !error && filtered.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-display text-primary">{item.sku ?? '—'}</TableCell>
                 <TableCell>{item.item_name}</TableCell>
