@@ -66,6 +66,40 @@
 └── test_example.py 🐍
 ```
 
+### 🔗 Key Files & Links
+
+Every path in the tree above is linked below. **File** rows open the source;
+**Folder** rows open the directory view. Descriptions are a quick orientation —
+see [Documentation](#documentation) and the linked guides for full detail.
+
+| Path | Link | Type | Description |
+| :--- | :---: | :---: | :--- |
+| `.github/` | [Browse](.github/) | Folder | GitHub-side configuration: the pull request template and CI workflow definitions. |
+| `.github/pull_request_template.md` | [View](.github/pull_request_template.md) | File | Required PR checklist: linked task, validation evidence, documentation updates, external sources / AI attribution, and approval from another member. |
+| `.github/workflows/` | [Browse](.github/workflows/) | Folder | GitHub Actions workflow definitions for automated build and test. |
+| `.github/workflows/ci.yml` | [View](.github/workflows/ci.yml) | File | `Build and Test` CI on pushes and PRs to `main`: Python unittest, frontend lint / test / build, Windows startup suite, Docker image build and container health check. |
+| `.gitignore` | [View](.gitignore) | File | Root-level ignore rules for generated files, installed dependencies and local databases. |
+| `Dockerfile` | [View](Dockerfile) | File | Builds the backend from `python:3.12-slim`, exposes port 8000 and runs `backend/server.py` with `LMS_HOST=0.0.0.0`. |
+| `README.md` | [View](README.md) | File | This document: project overview, current status, documentation index, repository layout and local run instructions. |
+| `CONTRIBUTING.md` | [View](CONTRIBUTING.md) | File | Task setup, local development, browser editing and the branch / PR review workflow. |
+| `CODE_OF_CONDUCT.md` | [View](CODE_OF_CONDUCT.md) | File | Proposed team responsibilities, communication rules, academic integrity and concern handling; awaiting team agreement. |
+| `CODE.md` | [View](CODE.md) | File | Former code-template document, retained so older links keep working. |
+| `docs/` | [Browse](docs/) | Folder | Requirements, design and planning documents: user stories, wireframes, ER diagram, OpenAPI spec, project record and UI plans. |
+| `docs/PROJECT.md` | [View](docs/PROJECT.md) | File | Project record: member responsibilities, provisional milestones and task / progress / decision templates. |
+| `frontend/` | [Browse](frontend/) | Folder | React + TypeScript + Vite client application, with its own README and lockfile. |
+| `frontend/src/` | [Browse](frontend/src/) | Folder | Application source: pages, components, API layer, hooks, stores and type definitions. |
+| `frontend/tests/` | [Browse](frontend/tests/) | Folder | TypeScript suites covering API workflows and UI regression (`*.test.ts`). |
+| `frontend/package.json` | [View](frontend/package.json) | File | Frontend dependencies and the `dev`, `test`, `lint`, `build` and `preview` scripts; requires Node.js >= 22.12. |
+| `backend/` | [Browse](backend/) | Folder | Python backend source; the `lms.db` SQLite file is created here at runtime. |
+| `backend/server.py` | [View](backend/server.py) | File | Standard-library HTTP server serving `/api`: login, shipments, inventory, tracking events and schema v1.2 SQLite persistence. |
+| `database/` | [Browse](database/) | Folder | Database schema, migration / backup tool (`db_manager.py`) and database guide. |
+| `database/schema.sql` | [View](database/schema.sql) | File | SQLite schema v1.2 (`users`, `hubs`, `items`, `shipments`, `shipment_items`, `tracking_events`) with Hong Kong seed data. |
+| `tests/` | [Browse](tests/) | Folder | Python `unittest` suites for the backend API, database and Windows startup script, plus the freight example. |
+| `tests/test_backend.py` | [View](tests/test_backend.py) | File | Backend HTTP API tests: health, seeded shipments, stock deduction, tracking events, restart persistence and listen address. |
+| `tests/test_example.py` | [View](tests/test_example.py) | File | Sample `calc_freight` examples covering positive, zero and negative weight. |
+
+> ℹ️ The tree above lists `test_backend.py` and `test_example.py` directly beneath `tests/`; both files live at the paths shown in the table.
+
 ## Run the examples locally
 
 Use a browser, Python 3 and Node.js 22.12 or later. The backend and Python tests
