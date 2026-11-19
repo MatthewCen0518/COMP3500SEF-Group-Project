@@ -80,10 +80,9 @@ At the top there are four boxes: **Total shipments**, **Pending pickup**, **In t
 | Cargo / SKU / Quantity | What is being sent and how many |
 | Sender → Receiver | Who sends it, who receives it, and the receiver's phone number |
 | Delivery address | Where it is going |
-| Created / Updated | The time the shipment was created and last changed (in UTC time) |
 | Status | The current status |
 
-The newest shipment is at the top. Each page shows 10 shipments. Use **Previous** and **Next** below the table to change page. If you cannot see the Status column, scroll the table to the right.
+The newest shipment is at the top. Use **Previous** and **Next** below the table to change page. If you cannot see the Status column, scroll the table to the right.
 
 ### Searching and filtering
 
