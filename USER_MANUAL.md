@@ -95,8 +95,8 @@ The newest shipment is at the top. Use **Previous** and **Next** below the table
 2. Pick a **SKU** from the list. Each choice also shows the item name and how many are in stock.
 3. Type the **Quantity**. It must be a whole number, 1 or more. If the number is bigger than the stock, you will see "Exceeds available stock" and the button will be greyed out, so you need to type a smaller number.
 4. Fill in **Receiver**, **Receiver phone** and **Delivery address**. All fields marked with an asterisk (*) must be filled in.
-5. Click **Create and deduct stock**. If you change your mind, click **Cancel**.
-6. A message will show the new tracking number and how much stock was deducted. The new shipment will appear at the top of the table with the status **Pending pickup**.
+5. To discard the form, click **Cancel** before submitting. When ready, click **Create and deduct stock**. Closing the form after submitting leaves the request running, and a successful request still creates the waybill and deducts stock.
+6. The confirmation shows the tracking number and the quantity deducted. To find the new **Pending pickup** shipment, select **All statuses** and enter that tracking number in the shipment search box.
 
 Good to know:
 
