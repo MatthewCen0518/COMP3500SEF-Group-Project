@@ -1,0 +1,36 @@
+P3 manual demo verification, 2026-11-20 (Asia/Taipei)
+Tested upstream source: 3f8e302cd944eb17b45029b199a98046506e706e
+Environment versions are recorded in automated.txt.
+Launched using start.ps1 -NoBrowser -SkipInstall -PythonExecutable <Python 3.13.3>.
+LMS_DB_PATH selected a fresh disposable database, manual-3f8e302-review.db.
+Database timestamps below are UTC. Counts are shipments, shipment items,
+and tracking events, in that order. Test receiver details are synthetic.
+
+TC-005: Incorrect credentials displayed an inline error and kept /login.
+The demo account signed in successfully and opened /orders.
+TC-002: Initial UI stock was 120. Under the Delivered filter the pending
+shipment was hidden. Selecting All statuses and searching for HK202611200002
+showed it in Waybills and Orders; it was still present after a reload.
+The refreshed inventory showed 118.
+TC-003: Status changed to In transit in Waybills and appeared in Orders.
+Changing it to Delivered in Orders persisted in Waybills after a reload.
+TC-004: The over-stock form displayed the warning and disabled submit.
+The separate API request returned 409. Refreshed inventory still showed 118.
+
+Captured SQL and HTTP output:
+TC-002 before creation (fresh seed): {"stock": 120, "counts": [1, 2, 2]}
+TC-002 after creation and reload: HK202611200002 [('pending', 2)] {"stock": 118, "counts": [2, 3, 3]}
+TC-003 read-only SQL query:
+SELECT s.tracking_number, e.status, e.description, e.event_time
+FROM tracking_events AS e JOIN shipments AS s ON s.shipment_id = e.shipment_id
+WHERE s.tracking_number = ? ORDER BY e.event_time, e.event_id
+Parameter: HK202611200002
+Rows: [["HK202611200002", "pending", "Shipping order created by sender.", "2026-11-20 08:42:59"], ["HK202611200002", "shipped", "Shipment status updated to shipped.", "2026-11-20 08:44:29"], ["HK202611200002", "delivered", "Shipment status updated to delivered.", "2026-11-20 08:44:35"]]
+Database state: {"stock": 118, "counts": [2, 3, 5]}
+TC-004 database state before POST: {"stock": 118, "counts": [2, 3, 5]}
+POST /api/shipments request body: {"sender_id": 4, "sku": "TECH-WM-001", "quantity": 119, "receiver_name": "QA Receiver", "receiver_phone": "+852-90000001", "delivery_address": "Flat A, 8/F, Test Building, Wan Chai"}
+HTTP 409 {"error": "insufficient inventory"}
+Stock query: SELECT stock_quantity FROM items WHERE sku = ?
+Shipment, line and tracking-event counts query: SELECT (SELECT COUNT(*) FROM shipments),
+(SELECT COUNT(*) FROM shipment_items), (SELECT COUNT(*) FROM tracking_events)
+TC-004 database state after POST: {"stock": 118, "counts": [2, 3, 5]}

@@ -4,12 +4,17 @@
 - Author: ZHANGZHIYUAN, QA / Test Engineer
 - Tested version: main @
   [3f8e302cd944eb17b45029b199a98046506e706e](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/commit/3f8e302cd944eb17b45029b199a98046506e706e)
-- Environment: Windows, PowerShell 5.1, Python 3.12.6, npm 11.19.1.
-  FILL FROM env.txt: Node.js version, browser name/version, OS caption.
+- Original QA environment: Windows, PowerShell 5.1, Python 3.12.6 and npm
+  11.19.1 as recorded by the author. Exact Windows, Node.js and browser
+  versions for that run remain unverified.
+- Verification run (2026-11-20, GeorgeXie2333): Windows 11 Home 25H2
+  (build 26200.9974), PowerShell 7.6.9, Windows PowerShell 5.1.26100.9818
+  for the launcher, Python 3.13.3, Node.js 24.14.0, npm 11.9.0 and
+  Chromium 157.0.8103.79 (Playwright, headless).
 - Related task: [GitHub Issue #23](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23)
 - Related baseline: [Quality Report 1](quality-report-1.md) (2026-10-26, P2)
-- Report status: Complete for the executed scope; raw evidence is attached to
-  the Issue #23 comments linked below.
+- Report status: Complete for the executed demo scope. Section 8 links the
+  original QA summaries and the evidence captured during verification.
 
 ## 1. Purpose and scope
 
@@ -28,9 +33,11 @@ A change on `main` after this run is assessed in section 6.
 
 ## 2. Automated results
 
-Commands and raw outputs are recorded in the
-[automated execution comment](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7014492753)
-with evidence files attached. Directories are relative to the repository root.
+The [original automated execution comment](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7014492753)
+records the results below. Directories are relative to the repository root.
+The [verification transcript](evidence/p3-3f8e302/automated.txt) confirms the same
+test counts, lint and production build at the same commit. It records the
+versions, commands and outputs from the independent run.
 
 | Check | Working directory | Command (PowerShell) | Result | Status |
 |---|---|---|---|---|
@@ -43,17 +50,18 @@ with evidence files attached. Directories are relative to the repository root.
 
 Compared with Quality Report 1 (83 Python tests at the P2 baseline), the Python
 suite now runs 99 tests and the frontend suite has grown from 5 to 15 tests,
-including the P3 UI-regression cases added with the recent frontend defect
-fixes (PRs #20 and #21). All passed at the tested commit.
+including request handling and timestamp cases from [PR #20](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/pull/20).
+[PR #21](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/pull/21) added seven Python API handler tests.
+All passed at the tested commit.
 
 ## 3. Manual results
 
 The manual run is recorded in the
 [manual execution comment](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7015276573)
-with 11 screenshots and raw terminal output attached. It used the disposable
-database `manual-3f8e302-run01.db`, started with `start.ps1` and `LMS_DB_PATH`,
-executed in the order TC-005 → TC-002 → TC-003 → TC-004 following
-`docs/ui/docs/test/test-cases.md`.
+with screenshots from the disposable database `manual-3f8e302-run01.db`.
+QA started the system with `start.ps1` and `LMS_DB_PATH`, then followed
+TC-005 → TC-002 → TC-003 → TC-004 in the [manual test plan](test-cases.md).
+The table records the original run.
 
 | Case | Observed result | Status |
 |---|---|---|
@@ -65,8 +73,9 @@ executed in the order TC-005 → TC-002 → TC-003 → TC-004 following
 
 Two earlier attempts at the direct API call failed with HTTP 400 (malformed
 JSON) and HTTP 401 (expired token after a server restart). Both were
-tester-side request issues, not product defects; the final 409 run used the
-attached `waybill-409.json` request body.
+request preparation errors. The independent run recorded its own JSON
+request and HTTP 409 response in the
+[manual transcript](evidence/p3-3f8e302/manual.txt).
 
 ## 4. Docker build and health check
 
@@ -87,18 +96,19 @@ defect-free.
 
 ## 6. Post-run change on main
 
-After this regression run, `main` advanced to `e9f06c2` ("Add User Manual").
-Diff review shows it touches only `USER_MANUAL.md` (+1 −2), a documentation
-file with no effect on the demo flow or any tested code path. The regression
-conclusions in this report therefore remain valid for the current `main`.
-If any code change merges before the presentation, the affected automated
-suites and the manual demo path must be rerun.
+By the verification review on 2026-11-20, `main` had advanced to
+[`5b68bfb`](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/commit/5b68bfb57d9e55ecd5a31cc6dde45abf20958fcd)
+through [PR #22](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/pull/22).
+The [comparison with the tested commit](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/compare/3f8e302cd944eb17b45029b199a98046506e706e...5b68bfb57d9e55ecd5a31cc6dde45abf20958fcd)
+shows one added file, `USER_MANUAL.md`. The tested code and dependencies
+match at both revisions. If a code change merges before the presentation,
+rerun the affected automated suites and the manual demo path.
 
 ## 7. Risks and limitations
 
-- Frontend workflow tests exercise the API layer; browser-level behaviour is
-  covered by the manual run and the P3 UI-regression suite, not by automated
-  browser tests.
+- The frontend suites exercise the API workflow, request handling and
+  timestamp formatting. The browser checks are recorded with the manual
+  scenario and verification screenshots.
 - The dependency audit reports 8 vulnerabilities (7 moderate, 1 high); the
   affected packages and exploitability are not yet investigated, and no
   automatic fix has been applied (carried over from Quality Report 1).
@@ -112,27 +122,31 @@ suites and the manual demo path must be rerun.
 
 ## 8. Evidence
 
-- [Automated execution comment](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7014492753)
-  — command outputs per check (`python-tests-main-3f8e302.txt`,
-  `frontend-tests-main-3f8e302.txt`, `frontend-lint-main-3f8e302.txt`,
-  `frontend-build-main-3f8e302.txt`, `windows-startup-main-3f8e302.txt`),
-  the environment record (`env.txt`) and terminal screenshots.
-- [Manual execution comment](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7015276573)
-  — 11 screenshots covering login, inventory, waybill creation, status
-  transitions and the HTTP 409 response; raw terminal output
-  (`manual-api-main-3f8e302.txt`); the request body (`waybill-409.json`).
-- [Docker evidence comment](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23)
-  — CI run link for the Docker build and published-port health check.
-
-Unlike Quality Report 1, all raw evidence for this run is shared in the linked
-Issue comments, and the environment was recorded before execution.
+- Original QA run (2026-11-19). Issue #23 contains the
+  [automated summary and screenshots](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7014492753)
+  and [manual summary and screenshots](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/issues/23#issuecomment-7015276573).
+  The original environment file and text transcripts were unavailable through
+  those links.
+- Independent verification (2026-11-20). The
+  [automated transcript](evidence/p3-3f8e302/automated.txt) records the environment
+  and full check outputs. The [manual transcript](evidence/p3-3f8e302/manual.txt)
+  records the new shipment, stock and row counts, tracking event SQL and
+  output, and the direct HTTP 409 request and response.
+- Browser screenshots from the verification database.
+  [Invalid sign-in](evidence/p3-3f8e302/01-invalid-login.png),
+  [new pending waybill](evidence/p3-3f8e302/02-pending-waybill.png),
+  [delivered in Waybills](evidence/p3-3f8e302/03-delivered-waybill.png), and
+  [over-stock form guard](evidence/p3-3f8e302/04-over-stock.png).
+- [Docker build and published-port health check](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/actions/runs/44366086884)
+  for `3f8e302`.
 
 ## 9. Conclusion and next steps
 
 All automated suites (99 Python tests, 15 frontend tests, lint, production
 build, 7 Windows startup tests) and the manual demo flow passed at
-`3f8e302`, with TC-001 still blocked by missing registration scope. The demo
-flow has no blocking defects and is ready for the P3 presentation.
+`3f8e302` in both runs. TC-001 remains blocked by missing registration scope.
+The demo flow has no blocking defects in the tested scope and is ready for
+the P3 presentation.
 
 Next steps:
 
