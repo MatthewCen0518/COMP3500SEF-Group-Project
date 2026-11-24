@@ -1,32 +1,26 @@
 # Logistics Management System
 
-**COMP3500SEF course project | Seven-member team**
+**COMP3500SEF Course Project** · **7-Member Team**
 
-This project aims to build a web application for managing shipments, inventory,
-hubs, delivery confirmation and tracking enquiries. The intended
-course outcome is a working MVP supported by requirements, design, implementation
-and testing evidence.
+🚚 A web application for managing **shipments**, **inventory**, **hubs**, delivery confirmation and tracking enquiries.
 
-## Current status
+🎯 Goal: A working MVP supported by requirements, design, implementation and testing evidence.
 
-The React frontend and Python backend share SQLite persistence for login,
-inventory, shipment creation and status updates. Remaining logistics modules
-are still planned.
+## 📊 Current Status
 
-| Component | Available now | Work still planned |
-| --- | --- | --- |
-| Frontend | React/TypeScript screens for sign in, orders, inventory and waybills, connected to Python/SQLite | Remaining logistics modules |
-| Backend | Python standard-library HTTP server with SQLite users, password hashing and schema v1.2 persistence | Production session management and role permissions |
-| Database | SQLite schema v1.2 (`users`, `hubs`, `items`, `shipments`, `shipment_items`, `tracking_events`), Hong Kong seed data, migration and backup tools | Database selection beyond SQLite |
-| Tests | Python HTTP API tests and freight examples; frontend API workflow tests against Python/SQLite | Automated browser regression tests |
-| Delivery | Source files, team documentation, Dockerfile and GitHub Actions build/test workflow | Deployment and release automation |
+🚀 The React frontend and Python backend share SQLite persistence for login, inventory, shipment creation and status updates. Remaining logistics modules are still planned.
 
-The backend loads `database/schema.sql` into SQLite on first start.
-The frontend calls the same API under `/api`. Orders and waybills show the same
-`shipments` records. Creating a waybill deducts stock in one SQLite transaction;
-status options match schema v1.2: `pending`, `shipped`, `delivered`.
-The backend adds a `demo` user with a salted PBKDF2 password hash on first start
-if that account is missing, including for existing v1.1 databases.
+| Component | Status | Available now | Work still planned |
+| :--- | :---: | :--- | :--- |
+| Frontend | 🟡 In Progress | React/TypeScript screens for sign in, orders, inventory and waybills, connected to Python/SQLite | Remaining logistics modules |
+| Backend | 🟡 In Progress | Python standard-library HTTP server with SQLite users, password hashing and schema v1.2 persistence | Production session management and role permissions |
+| Database | 🟢 Done | SQLite schema v1.2 (`users`, `hubs`, `items`, `shipments`, `shipment_items`, `tracking_events`), Hong Kong seed data, migration and backup tools | Database selection beyond SQLite |
+| Tests | 🟡 In Progress | Python HTTP API tests and freight examples; frontend API workflow tests against Python/SQLite | Automated browser regression tests |
+| Delivery | 🟢 Done | Source files, team documentation, Dockerfile and GitHub Actions build/test workflow | Deployment and release automation |
+
+> ⚠️ **Backend Note:** Loads `database/schema.sql` into SQLite on first start. Automatic initialization requires an unversioned database with no user-defined schema objects. An incomplete database or unsupported schema version stops startup before the server listens or adds the demo account, preserving existing data. Back up and inspect a rejected database; startup does not repair or rebuild it.
+
+> ℹ️ **Frontend & DB Note:** The frontend calls the same API under `/api`. Orders and waybills show the same `shipments` records. Creating a waybill deducts stock in one SQLite transaction; status options match schema v1.2: `pending`, `shipped`, `delivered`. The backend adds a `demo` user with a salted PBKDF2 password hash on first start if that account is missing, including for existing v1.1 databases.
 
 ## Documentation
 
@@ -38,35 +32,73 @@ if that account is missing, including for existing v1.1 databases.
   milestones and task, progress and decision templates.
 - [Former code-template document](CODE.md): navigation retained for older links.
 - [Database guide](database/README.md): v1.1 migration, backup, restore and integrity checks.
+- [P2 mockup plan](docs/ui/p2-mockups.md): current screen scope, proposed designs
+  and usability/handover checklists; design assets and reviews are pending.
+- [Manual test plan](docs/ui/docs/test/test-cases.md): current workflow cases and
+  future feature blockers; execution results are not yet recorded.
 
-## Repository layout
+## 📦 Repository Layout
 
 ```text
 .
-├── .github/
+├── .github/ 🔧
 │   ├── pull_request_template.md
-│   └── workflows/
+│   └── workflows/ 🔄
 │       └── ci.yml
 ├── .gitignore
-├── Dockerfile
-├── README.md
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-├── CODE.md
-├── docs/
-│   └── PROJECT.md
-├── frontend/
-│   ├── src/
-│   ├── tests/
-│   └── package.json
-├── backend/
-│   └── server.py
-├── database/
-│   └── schema.sql
-└── tests/
-    ├── test_backend.py
-    └── test_example.py
+├── Dockerfile 🐳
+├── README.md 📄
+├── CONTRIBUTING.md 🤝
+├── CODE_OF_CONDUCT.md 📜
+├── CODE.md 💻
+├── docs/ 📚
+│   └── PROJECT.md 📝
+├── frontend/ 🎨
+│   ├── src/ ⚛️
+│   ├── tests/ 🧪
+│   └── package.json 📦
+├── backend/ ⚙️
+│   └── server.py 🐍
+├── database/ 🗄️
+│   └── schema.sql 🛢️
+└── tests/ 🧪
+├── test_backend.py 🐍
+└── test_example.py 🐍
 ```
+
+### 🔗 Key Files & Links
+
+Every path in the tree above is linked below. **File** rows open the source;
+**Folder** rows open the directory view. Descriptions are a quick orientation —
+see [Documentation](#documentation) and the linked guides for full detail.
+
+| Path | Link | Type | Description |
+| :--- | :---: | :---: | :--- |
+| `.github/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/.github) | Folder | GitHub-side configuration: the pull request template and CI workflow definitions. |
+| `.github/pull_request_template.md` | [View](.github/pull_request_template.md) | File | Required PR checklist: linked task, validation evidence, documentation updates, external sources / AI attribution, and approval from another member. |
+| `.github/workflows/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/.github/workflows) | Folder | GitHub Actions workflow definitions for automated build and test. |
+| `.github/workflows/ci.yml` | [View](.github/workflows/ci.yml) | File | `Build and Test` CI on pushes and PRs to `main`: Python unittest, frontend lint / test / build, Windows startup suite, Docker image build and container health check. |
+| `.gitignore` | [View](.gitignore) | File | Root-level ignore rules for generated files, installed dependencies and local databases. |
+| `Dockerfile` | [View](Dockerfile) | File | Builds the backend from `python:3.12-slim`, exposes port 8000 and runs `backend/server.py` with `LMS_HOST=0.0.0.0`. |
+| `README.md` | [View](README.md) | File | This document: project overview, current status, documentation index, repository layout and local run instructions. |
+| `CONTRIBUTING.md` | [View](CONTRIBUTING.md) | File | Task setup, local development, browser editing and the branch / PR review workflow. |
+| `CODE_OF_CONDUCT.md` | [View](CODE_OF_CONDUCT.md) | File | Proposed team responsibilities, communication rules, academic integrity and concern handling; awaiting team agreement. |
+| `CODE.md` | [View](CODE.md) | File | Former code-template document, retained so older links keep working. |
+| `docs/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/docs) | Folder | Requirements, design and planning documents: user stories, wireframes, ER diagram, OpenAPI spec, project record and UI plans. |
+| `docs/PROJECT.md` | [View](docs/PROJECT.md) | File | Project record: member responsibilities, provisional milestones and task / progress / decision templates. |
+| `frontend/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/frontend) | Folder | React + TypeScript + Vite client application, with its own README and lockfile. |
+| `frontend/src/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/frontend/src) | Folder | Application source: pages, components, API layer, hooks, stores and type definitions. |
+| `frontend/tests/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/frontend/tests) | Folder | TypeScript suites covering API workflows and UI regression (`*.test.ts`). |
+| `frontend/package.json` | [View](frontend/package.json) | File | Frontend dependencies and the `dev`, `test`, `lint`, `build` and `preview` scripts; requires Node.js >= 22.12. |
+| `backend/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/backend) | Folder | Python backend source; the `lms.db` SQLite file is created here at runtime. |
+| `backend/server.py` | [View](backend/server.py) | File | Standard-library HTTP server serving `/api`: login, shipments, inventory, tracking events and schema v1.2 SQLite persistence. |
+| `database/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/database) | Folder | Database schema, migration / backup tool (`db_manager.py`) and database guide. |
+| `database/schema.sql` | [View](database/schema.sql) | File | SQLite schema v1.2 (`users`, `hubs`, `items`, `shipments`, `shipment_items`, `tracking_events`) with Hong Kong seed data. |
+| `tests/` | [Browse](https://github.com/xulanxin30-tech/COMP3500SEF-Group-Project/tree/main/tests) | Folder | Python `unittest` suites for the backend API, database and Windows startup script, plus the freight example. |
+| `tests/test_backend.py` | [View](tests/test_backend.py) | File | Backend HTTP API tests: health, seeded shipments, stock deduction, tracking events, restart persistence and listen address. |
+| `tests/test_example.py` | [View](tests/test_example.py) | File | Sample `calc_freight` examples covering positive, zero and negative weight. |
+
+> ℹ️ The tree above lists `test_backend.py` and `test_example.py` directly beneath `tests/`; both files live at the paths shown in the table.
 
 ## Run the examples locally
 
@@ -85,6 +117,40 @@ starts successfully before continuing:
 | --- | --- |
 | Windows PowerShell | `py -3 --version` |
 | macOS/Linux terminal | `python3 --version` |
+
+### One-command Windows startup
+
+From the repository root in Windows PowerShell 5.1 or PowerShell 7, run:
+
+```powershell
+.\start.ps1
+```
+
+Install Python 3 and Node.js 22.12 or later first. The script finds `py`, `python`
+or `python3`, runs `npm ci` with the lockfile, starts both servers and opens
+http://127.0.0.1:3000 after the frontend, backend and API proxy are ready.
+Sign in with `demo` / `demo123`. This starts local development servers, not a
+production deployment.
+
+Keep the launching terminal open. Press **Enter** or **Ctrl+C** there to stop both
+servers. Startup failures also clean up the processes started by the script;
+logs are saved under `output/startup/`. Ports 8000 and 3000 must be free: the
+script refuses an existing listener instead of reusing it or moving Vite to a
+different port. It binds the local pair to `127.0.0.1` and uses `/api`, temporarily
+overriding `LMS_HOST` and `VITE_API_BASE_URL` and restoring them on exit.
+`LMS_DB_PATH` is still respected; the default database is `backend/lms.db`.
+
+Optional switches:
+
+- `-PythonExecutable 'C:\path\to\python.exe'`: select an interpreter; the `PYTHON`
+  environment variable is also supported.
+- `-SkipInstall`: reuse an existing frontend installation. Use only after a
+  successful `npm ci` with the current lockfile; omit after dependency changes.
+- `-NoBrowser`: start without opening a browser.
+
+If your PowerShell execution policy blocks a downloaded script, review the file
+and follow your machine's policy for running local scripts, or use the separate
+frontend/backend commands below.
 
 ### Frontend
 
@@ -173,6 +239,14 @@ For frontend validation, run `npm test`, `npm run lint -- --max-warnings=0`
 and `npm run build` from `frontend`. The workflow suite checks the local HTTP
 React API layer against a real temporary Python/SQLite server; the
 [frontend guide](frontend/README.md) describes its scope and Python configuration.
+
+On Windows, after `npm ci` in `frontend`, run
+`py -3 -m unittest discover -s tests/windows -v` to check `start.ps1` with real
+Python/Vite processes. The separate suite covers startup from a path with spaces,
+the API proxy, occupied ports, invalid health responses, install/server failures
+and process cleanup. It uses disposable database files and does not open a browser.
+Ports 8000 and 3000 must be free; local tests skip if either is already in use.
+GitHub Actions runs this suite in a separate Windows job.
 
 GitHub Actions runs the Python suite for pushes and PRs targeting `main`, builds the
 Docker image, starts the backend container and checks the health response through

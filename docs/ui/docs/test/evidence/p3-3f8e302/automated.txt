@@ -1,0 +1,576 @@
+P3 regression verification, 2026-11-20 (Asia/Taipei)
+Reviewer: GeorgeXie2333
+Tested upstream source: 3f8e302cd944eb17b45029b199a98046506e706e
+OS: Microsoft Windows 11 Home 25H2 (10.0.26200.9974)
+Shell: PowerShell 7.6.9
+Launcher shell: Windows PowerShell 5.1.26100.9818
+Python 3.13.3
+Node.js v24.14.0
+npm 11.9.0
+Browser: Chromium 157.0.8103.79 (Playwright, headless)
+PYTHON was set to the same Python executable when running the frontend tests.
+Commands returned exit code 0. Local Windows paths in output were redacted.
+
+[frontend] npm.cmd ci
+npm warn deprecated recharts@2.15.4: 1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 329 packages, and audited 330 packages in 1m
+
+58 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (7 moderate, 1 high)
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+[repository root] python -m unittest discover -s tests -v
+test_concurrent_waybills_for_the_last_unit_commit_only_one_shipment (test_api_handlers.TestAPIHandlers.test_concurrent_waybills_for_the_last_unit_commit_only_one_shipment) ... ok
+test_create_deducts_only_the_requested_sku_and_records_a_pending_shipment (test_api_handlers.TestAPIHandlers.test_create_deducts_only_the_requested_sku_and_records_a_pending_shipment) ... ok
+test_insufficient_stock_returns_conflict_without_partial_writes (test_api_handlers.TestAPIHandlers.test_insufficient_stock_returns_conflict_without_partial_writes) ... ok
+test_invalid_credentials_do_not_issue_a_session (test_api_handlers.TestAPIHandlers.test_invalid_credentials_do_not_issue_a_session) ... ok
+test_login_issues_a_token_for_the_returned_user (test_api_handlers.TestAPIHandlers.test_login_issues_a_token_for_the_returned_user) ... ok
+test_public_reads_return_only_documented_fields (test_api_handlers.TestAPIHandlers.test_public_reads_return_only_documented_fields) ... ok
+test_status_update_appends_one_event_and_preserves_inventory (test_api_handlers.TestAPIHandlers.test_status_update_appends_one_event_and_preserves_inventory) ... ok
+test_health (test_backend.TestBackendAPI.test_health) ... ok
+test_shipments (test_backend.TestBackendAPI.test_shipments) ... ok
+test_unknown_path (test_backend.TestBackendAPI.test_unknown_path) ... ok
+test_append_tracking_events (test_backend.TestBackendWrites.test_append_tracking_events) ... ok
+test_cors_preflight_and_public_health (test_backend.TestBackendWrites.test_cors_preflight_and_public_health) ... ok
+test_create_shipment_deducts_inventory (test_backend.TestBackendWrites.test_create_shipment_deducts_inventory) ... ok
+test_data_persists_and_seed_is_not_repeated (test_backend.TestBackendWrites.test_data_persists_and_seed_is_not_repeated) ... ok
+test_insufficient_inventory_leaves_database_unchanged (test_backend.TestBackendWrites.test_insufficient_inventory_leaves_database_unchanged) ... ok
+test_invalid_json (test_backend.TestBackendWrites.test_invalid_json) ... ok
+test_invalid_shipment_status (test_backend.TestBackendWrites.test_invalid_shipment_status) ... ok
+test_invalid_tracking_event (test_backend.TestBackendWrites.test_invalid_tracking_event) ... ok
+test_login_and_profile_use_sqlite_user (test_backend.TestBackendWrites.test_login_and_profile_use_sqlite_user) ... ok
+test_login_rejects_invalid_credentials (test_backend.TestBackendWrites.test_login_rejects_invalid_credentials) ... ok
+test_login_success (test_backend.TestBackendWrites.test_login_success) ... ok
+test_missing_item_or_sender (test_backend.TestBackendWrites.test_missing_item_or_sender) ... ok
+test_shipment_input_validation (test_backend.TestBackendWrites.test_shipment_input_validation) ... ok
+test_status_update_refreshes_updated_at (test_backend.TestBackendWrites.test_status_update_refreshes_updated_at) ... ok
+test_update_shipment_status (test_backend.TestBackendWrites.test_update_shipment_status) ... ok
+test_write_routes_require_login (test_backend.TestBackendWrites.test_write_routes_require_login) ... ok
+test_writes_to_missing_shipments (test_backend.TestBackendWrites.test_writes_to_missing_shipments) ... ok
+test_address_can_accept_forwarded_container_requests (test_backend.TestListenAddress.test_address_can_accept_forwarded_container_requests) ... ok
+test_default_address_is_loopback (test_backend.TestListenAddress.test_default_address_is_loopback) ... ok
+test_auth_precedes_body_validation_on_write_routes (test_backend_edge_cases.TestAuthContract.test_auth_precedes_body_validation_on_write_routes) ... ok
+test_events_route_with_wrong_method_is_unauthorized_first (test_backend_edge_cases.TestAuthContract.test_events_route_with_wrong_method_is_unauthorized_first) ... ok
+test_read_endpoints_are_public (test_backend_edge_cases.TestAuthContract.test_read_endpoints_are_public) ... ok
+test_body_at_size_limit_is_accepted (test_backend_edge_cases.TestBodyValidation.test_body_at_size_limit_is_accepted) ... ok
+test_chunked_transfer_encoding_is_rejected (test_backend_edge_cases.TestBodyValidation.test_chunked_transfer_encoding_is_rejected) ... ok
+test_invalid_content_length_is_rejected (test_backend_edge_cases.TestBodyValidation.test_invalid_content_length_is_rejected) ... ok
+test_missing_body_is_rejected (test_backend_edge_cases.TestBodyValidation.test_missing_body_is_rejected) ... ok
+test_oversized_body_is_rejected (test_backend_edge_cases.TestBodyValidation.test_oversized_body_is_rejected) ... ok
+test_wrong_content_type_is_rejected (test_backend_edge_cases.TestBodyValidation.test_wrong_content_type_is_rejected) ... ok
+test_field_validation_precedes_database_lookup (test_backend_edge_cases.TestFieldValidation.test_field_validation_precedes_database_lookup) ... ok
+test_login_field_validation (test_backend_edge_cases.TestFieldValidation.test_login_field_validation) ... ok
+test_login_response_has_exact_keys (test_backend_edge_cases.TestFieldValidation.test_login_response_has_exact_keys) ... ok
+test_login_wrong_username_is_unauthorized (test_backend_edge_cases.TestFieldValidation.test_login_wrong_username_is_unauthorized) ... ok
+test_max_valid_quantity_fails_as_insufficient_not_invalid (test_backend_edge_cases.TestFieldValidation.test_max_valid_quantity_fails_as_insufficient_not_invalid) ... ok
+test_receiver_fields_are_trimmed (test_backend_edge_cases.TestFieldValidation.test_receiver_fields_are_trimmed) ... ok
+test_receiver_fields_must_be_non_empty_strings (test_backend_edge_cases.TestFieldValidation.test_receiver_fields_must_be_non_empty_strings) ... ok
+test_sender_id_rejects_negative_and_non_integer (test_backend_edge_cases.TestFieldValidation.test_sender_id_rejects_negative_and_non_integer) ... ok
+test_back_to_back_orders_drain_stock_then_reject (test_backend_edge_cases.TestInventoryBoundaries.test_back_to_back_orders_drain_stock_then_reject) ... ok
+test_failed_order_leaves_shipment_and_event_tables_unchanged (test_backend_edge_cases.TestInventoryBoundaries.test_failed_order_leaves_shipment_and_event_tables_unchanged) ... ok
+test_order_after_stock_is_zeroed_is_rejected (test_backend_edge_cases.TestInventoryBoundaries.test_order_after_stock_is_zeroed_is_rejected) ... ok
+test_order_exactly_matching_stock_zeroes_it (test_backend_edge_cases.TestInventoryBoundaries.test_order_exactly_matching_stock_zeroes_it) ... ok
+test_non_numeric_shipment_id_does_not_match_event_route (test_backend_edge_cases.TestPathParsing.test_non_numeric_shipment_id_does_not_match_event_route) ... ok
+test_overlong_shipment_id_is_a_validation_error (test_backend_edge_cases.TestPathParsing.test_overlong_shipment_id_is_a_validation_error) ... ok
+test_routing_precedes_auth_on_unknown_paths (test_backend_edge_cases.TestPathParsing.test_routing_precedes_auth_on_unknown_paths) ... ok
+test_single_shipment_path_is_not_found (test_backend_edge_cases.TestPathParsing.test_single_shipment_path_is_not_found) ... ok
+test_trailing_slash_does_not_match_status_route (test_backend_edge_cases.TestPathParsing.test_trailing_slash_does_not_match_status_route) ... ok
+test_description_is_trimmed (test_backend_edge_cases.TestTrackingEventEdges.test_description_is_trimmed) ... ok
+test_description_must_be_a_string (test_backend_edge_cases.TestTrackingEventEdges.test_description_must_be_a_string) ... ok
+[127.0.0.1] "GET /api/health HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "GET /missing HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 200 -
+[127.0.0.1] "OPTIONS /api/shipments HTTP/1.1" 204 -
+[127.0.0.1] "GET /api/health HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/items HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "GET /api/items HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "PATCH /api/shipments/2/status HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/2/events HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/items HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/2/status HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/items HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 409 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/items HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "GET /api/health HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 400 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 400 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 400 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 400 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 400 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/auth/profile HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/auth/profile HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 401 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 401 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/999/events HTTP/1.1" 404 -
+[127.0.0.1] "PATCH /api/shipments/999/status HTTP/1.1" 404 -
+[127.0.0.1] "PATCH /api/shipments/1/status HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 401 -
+[127.0.0.1] "GET /api/health HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/shipments HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/items HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 413 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 415 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 401 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 409 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 409 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 409 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 409 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments HTTP/1.1" 201 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/abc/events HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/99999999999999999999/events HTTP/1.1" 400 -
+[127.0.0.1] "PATCH /api/shipments/1/status/ HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/nothing HTTP/1.1" 404 -
+[127.0.0.1] "GET /api/shipments/1 HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "PATCH /api/shipments/1/status/ HTTP/1.1" 404 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+test_hub_id_type_boundaries (test_backend_edge_cases.TestTrackingEventEdges.test_hub_id_type_boundaries) ... ok
+test_status_value_boundaries (test_backend_edge_cases.TestTrackingEventEdges.test_status_value_boundaries) ... ok
+test_unknown_hub_is_not_found (test_backend_edge_cases.TestTrackingEventEdges.test_unknown_hub_is_not_found) ... ok
+test_each_missing_required_table_is_rejected_without_changes (test_database.TestBackendInitialization.test_each_missing_required_table_is_rejected_without_changes) ... ok
+test_newer_populated_database_is_not_modified (test_database.TestBackendInitialization.test_newer_populated_database_is_not_modified) ... ok
+test_stale_empty_check_cannot_overwrite_another_initializers_data (test_database.TestBackendInitialization.test_stale_empty_check_cannot_overwrite_another_initializers_data) ... ok
+test_unrelated_database_is_not_initialized (test_database.TestBackendInitialization.test_unrelated_database_is_not_initialized) ... ok
+test_users_only_database_is_not_reseeded (test_database.TestBackendInitialization.test_users_only_database_is_not_reseeded) ... ok
+test_v11_startup_only_adds_missing_demo_account (test_database.TestBackendInitialization.test_v11_startup_only_adds_missing_demo_account) ... ok
+test_v12_restart_preserves_password_stock_and_extra_tables (test_database.TestBackendInitialization.test_v12_restart_preserves_password_stock_and_extra_tables) ... ok
+test_versioned_empty_database_is_not_initialized (test_database.TestBackendInitialization.test_versioned_empty_database_is_not_initialized) ... ok
+test_view_only_database_is_not_replaced (test_database.TestBackendInitialization.test_view_only_database_is_not_replaced) ... ok
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 400 -
+[127.0.0.1] "POST /api/auth/login HTTP/1.1" 200 -
+[127.0.0.1] "POST /api/shipments/1/events HTTP/1.1" 404 -
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpjsjfp0id\lms.db is at schema v2
+OK  <Windows user profile>\AppData\Local\Temp\tmpjsjfp0id\backups\lms_20261120-163733-238217_000000.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmpjsjfp0id\backups\lms_20261120-163733-238217_000000.sql (5.6 KB)
+    sha256 be0fcce94a0f552286e5e99300fcc40f01a07c9ee024d53d61a7fb65f713c171
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  0  PASS
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+12/12 checks passed
+test_backup_creates_a_restorable_copy (test_database.TestBackup.test_backup_creates_a_restorable_copy) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\lms.db is at schema v2
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\backups\lms_20261024-120000-000000_000000.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\backups\lms_20261024-120000-000000_000000.sql (5.6 KB)
+    sha256 be0fcce94a0f552286e5e99300fcc40f01a07c9ee024d53d61a7fb65f713c171
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\backups\lms_20261024-120000-000000_000001.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\backups\lms_20261024-120000-000000_000001.sql (5.6 KB)
+    sha256 a7e539991dbb6279db1ab6ede772383d6882c03f3aa99838ce99068c573e9b39
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\backups\lms_20261024-120000-000000_000002.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmp_c0p_ng4\backups\lms_20261024-120000-000000_000002.sql (5.6 KB)
+    sha256 a7e539991dbb6279db1ab6ede772383d6882c03f3aa99838ce99068c573e9b39
+    pruned lms_20261024-120000-000000_000000.db
+test_backups_in_the_same_instant_are_distinct_and_retained (test_database.TestBackup.test_backups_in_the_same_instant_are_distinct_and_retained) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpxdnpo6_q\lms.db is at schema v2
+OK  <Windows user profile>\AppData\Local\Temp\tmpxdnpo6_q\backups\lms_20261120-163733-368735_000000.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmpxdnpo6_q\backups\lms_20261120-163733-368735_000000.sql (5.6 KB)
+    sha256 be0fcce94a0f552286e5e99300fcc40f01a07c9ee024d53d61a7fb65f713c171
+test_binary_and_sql_backups_use_the_same_snapshot (test_database.TestBackup.test_binary_and_sql_backups_use_the_same_snapshot) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpp4jk6ple\lms.db is at schema v2
+OK  <Windows user profile>\AppData\Local\Temp\tmpp4jk6ple\backups\lms_20261120-163733-431781_000000.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmpp4jk6ple\backups\lms_20261120-163733-431781_000000.sql (5.6 KB)
+    sha256 be0fcce94a0f552286e5e99300fcc40f01a07c9ee024d53d61a7fb65f713c171
+test_retention_does_not_prune_another_databases_backups (test_database.TestBackup.test_retention_does_not_prune_another_databases_backups) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpxlg7dxge\lms.db is at schema v2
+OK  <Windows user profile>\AppData\Local\Temp\tmpxlg7dxge\backups\lms_20261120-163733-469491_000000.db  (84.0 KB)
+OK  <Windows user profile>\AppData\Local\Temp\tmpxlg7dxge\backups\lms_20261120-163733-469491_000000.sql (5.6 KB)
+    sha256 be0fcce94a0f552286e5e99300fcc40f01a07c9ee024d53d61a7fb65f713c171
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  0  PASS
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+12/12 checks passed
+test_sql_dump_restores_data_schema_and_version (test_database.TestBackup.test_sql_dump_restores_data_schema_and_version) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpy40_wqd0\lms.db is at schema v2
+test_duplicate_product_line_is_rejected (test_database.TestDataIntegrity.test_duplicate_product_line_is_rejected) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmp655bi4cv\lms.db is at schema v2
+test_negative_stock_is_rejected (test_database.TestDataIntegrity.test_negative_stock_is_rejected) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpffj71plj\lms.db is at schema v2
+test_order_summary_totals (test_database.TestDataIntegrity.test_order_summary_totals) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpcrvfd1l0\lms.db is at schema v2
+test_price_snapshot_is_filled_by_the_trigger (test_database.TestDataIntegrity.test_price_snapshot_is_filled_by_the_trigger) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmp2pugwv5n\lms.db is at schema v2
+test_price_snapshot_survives_a_catalogue_price_change (test_database.TestDataIntegrity.test_price_snapshot_survives_a_catalogue_price_change) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpecy4mwxf\lms.db is at schema v2
+test_zero_quantity_is_rejected (test_database.TestDataIntegrity.test_zero_quantity_is_rejected) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpj7f37r5b\lms.db is at schema v2
+test_index_plan_is_present (test_database.TestIndexes.test_index_plan_is_present) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpl8zxv5tw\lms.db is at schema v2
+test_timeline_index_has_the_event_id_tie_break (test_database.TestIndexes.test_timeline_index_has_the_event_id_tie_break) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmp8nyluroa\lms.db is at schema v2
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  1  FAIL
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+11/12 checks passed
+FAILED - do not demo on this database
+test_verify_reports_a_missing_index (test_database.TestIndexes.test_verify_reports_a_missing_index) ... ok
+migrating <Windows user profile>\AppData\Local\Temp\tmp9oqvq3kw\lms.db ...
+  ! merged 1 duplicated order line(s)
+  - rebuilding shipment_items (price snapshot, UNIQUE, CHECKs)
+  - rebuilding items (sku NOT NULL, stock/price CHECKs)
+test_failed_upgrade_leaves_all_data_and_schema_unchanged (test_database.TestMigration.test_failed_upgrade_leaves_all_data_and_schema_unchanged) ... ok
+migrating <Windows user profile>\AppData\Local\Temp\tmpx_lhqpxe\lms.db ...
+test_invalid_quantity_cannot_be_hidden_by_merging_duplicates (test_database.TestMigration.test_invalid_quantity_cannot_be_hidden_by_merging_duplicates) ... ok
+migrating <Windows user profile>\AppData\Local\Temp\tmpenj3ybsa\lms.db ...
+  ! merged 1 duplicated order line(s)
+  - rebuilding shipment_items (price snapshot, UNIQUE, CHECKs)
+  - rebuilding items (sku NOT NULL, stock/price CHECKs)
+  - upgraded idx_tracking_events_lookup with the event_id tie-break
+  - created 6 index(es)
+  applied 4 change set(s)
+OK  <Windows user profile>\AppData\Local\Temp\tmpenj3ybsa\lms.db is at schema v2
+migrating <Windows user profile>\AppData\Local\Temp\tmpenj3ybsa\lms.db ...
+  already up to date
+OK  <Windows user profile>\AppData\Local\Temp\tmpenj3ybsa\lms.db is at schema v2
+test_migrate_is_idempotent (test_database.TestMigration.test_migrate_is_idempotent) ... ok
+migrating <Windows user profile>\AppData\Local\Temp\tmp03fkymnq\lms.db ...
+  ! merged 1 duplicated order line(s)
+  - rebuilding shipment_items (price snapshot, UNIQUE, CHECKs)
+  - rebuilding items (sku NOT NULL, stock/price CHECKs)
+  - upgraded idx_tracking_events_lookup with the event_id tie-break
+  - created 6 index(es)
+  applied 4 change set(s)
+OK  <Windows user profile>\AppData\Local\Temp\tmp03fkymnq\lms.db is at schema v2
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  0  PASS
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+12/12 checks passed
+test_migrate_upgrades_a_v11_database (test_database.TestMigration.test_migrate_upgrades_a_v11_database) ... ok
+migrating <Windows user profile>\AppData\Local\Temp\tmpfs32ru3u\lms.db ...
+  ! merged 1 duplicated order line(s)
+  - rebuilding shipment_items (price snapshot, UNIQUE, CHECKs)
+  - rebuilding items (sku NOT NULL, stock/price CHECKs)
+  - upgraded idx_tracking_events_lookup with the event_id tie-break
+  - created 6 index(es)
+  applied 4 change set(s)
+OK  <Windows user profile>\AppData\Local\Temp\tmpfs32ru3u\lms.db is at schema v2
+test_migration_does_not_reuse_deleted_ids (test_database.TestMigration.test_migration_does_not_reuse_deleted_ids) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmp6n_let8k\lms.db is at schema v2
+test_newer_database_version_is_not_downgraded (test_database.TestMigration.test_newer_database_version_is_not_downgraded) ... ok
+migrating <Windows user profile>\AppData\Local\Temp\tmpu0ge6rf1\lms.db ...
+test_orphan_order_lines_are_rejected_without_data_loss (test_database.TestMigration.test_orphan_order_lines_are_rejected_without_data_loss) ... ok
+test_partial_database_is_not_replaced_with_seed_data (test_database.TestMigration.test_partial_database_is_not_replaced_with_seed_data) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpcu1qt1oj\lms.db is at schema v2
+test_all_tables_view_and_trigger_exist (test_database.TestSchema.test_all_tables_view_and_trigger_exist) ... ok
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  0  PASS
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+12/12 checks passed
+test_backend_created_database_has_the_schema_version (test_database.TestSchema.test_backend_created_database_has_the_schema_version) ... ok
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  0  PASS
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+12/12 checks passed
+test_schema_can_be_reapplied_with_foreign_keys_enabled (test_database.TestSchema.test_schema_can_be_reapplied_with_foreign_keys_enabled) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmpxieusn7_\lms.db is at schema v2
+test_seed_data_matches_the_demo_screens (test_database.TestSchema.test_seed_data_matches_the_demo_screens) ... ok
+creating a new database from schema.sql ...
+OK  <Windows user profile>\AppData\Local\Temp\tmp5v7qi468\lms.db is at schema v2
+
+check                                          violations  result
+--------------------------------------------------------------------
+C1  all tables exist                                    0  PASS
+C2  foreign keys intact                                 0  PASS
+C3  sqlite integrity_check is ok                        0  PASS
+C4  no negative stock                                   0  PASS
+C5  every order line quantity > 0                       0  PASS
+C6  one line per product per order                      0  PASS
+C7  every shipment has a tracking event                 0  PASS
+C8  every order line carries a price                    0  PASS
+C9  index plan applied                                  0  PASS
+C10 timeline index has the event_id tie-break           0  PASS
+C11 schema version is v2                                0  PASS
+C12 order totals computable                             0  PASS
+--------------------------------------------------------------------
+12/12 checks passed
+test_verify_passes_on_a_fresh_database (test_database.TestSchema.test_verify_passes_on_a_fresh_database) ... ok
+test_negative (test_example.TestFreight.test_negative) ... ok
+test_normal (test_example.TestFreight.test_normal) ... ok
+test_zero (test_example.TestFreight.test_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 99 tests in 40.801s
+
+OK
+
+[frontend] npm.cmd run test
+> logistics-frontend@0.0.0 test
+> tsc -p tsconfig.test.json && tsx --tsconfig tsconfig.app.json --test tests/*.test.ts
+
+▶ request layer
+  ✔ returns the parsed payload for a successful JSON response (1.1097ms)
+  ✔ signs out and redirects when a protected endpoint returns a non-JSON 401 (0.5197ms)
+  ✔ keeps the backend error message for a rejected sign-in (0.2554ms)
+  ✔ keeps a newer session when a request made with the old token returns 401 (0.2076ms)
+  ✔ reports an HTTP error instead of throwing a JSON parse error on a bad gateway (0.2228ms)
+  ✔ rejects a successful data response with a missing or malformed JSON payload (0.2535ms)
+  ✔ reports a missing payload when a catalogue request returns no content (0.2214ms)
+  ✔ maps a network failure to a connection error (0.209ms)
+✔ request layer (3.6926ms)
+▶ timestamp formatting
+  ✔ displays UTC timestamps correctly in a non-UTC timezone (12.941ms)
+  ✔ respects an explicit timezone offset (0.2402ms)
+✔ timestamp formatting (13.2866ms)
+▶ React API against the shared Python/SQLite backend
+  ✔ uses a SQLite user, preserves invalid-login errors and does not redirect on bad credentials (183.4183ms)
+  ✔ lists real inventory and every item on the seeded shipment (6.6926ms)
+  ✔ creates a waybill, deducts stock, patches status, and persists both across restart (357.8292ms)
+  ✔ rejects malformed or insufficient-stock creates without partially writing data (27.2553ms)
+  ✔ does not oversell when two clients try to consume the same remaining stock (17.1497ms)
+✔ React API against the shared Python/SQLite backend (1131.5549ms)
+ℹ tests 15
+ℹ suites 3
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1457.8061
+
+[frontend] npm.cmd run lint -- --max-warnings=0
+> logistics-frontend@0.0.0 lint
+> eslint . --max-warnings=0
+
+[frontend] npm.cmd run build
+> logistics-frontend@0.0.0 build
+> tsc -b && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1813 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.68 kB │ gzip:   0.45 kB
+dist/assets/index-CbLHxrvQ.css  106.38 kB │ gzip:  16.74 kB
+dist/assets/index-DdeeHQYV.js   480.66 kB │ gzip: 152.12 kB
+✓ built in 6.02s
+
+[repository root] python -m unittest discover -s tests/windows -v
+test_backend_failure_is_reported_and_cleaned_up (test_startup.TestWindowsStartup.test_backend_failure_is_reported_and_cleaned_up) ... ok
+test_dependency_install_failure_starts_no_servers (test_startup.TestWindowsStartup.test_dependency_install_failure_starts_no_servers) ... ok
+test_frontend_failure_also_stops_backend (test_startup.TestWindowsStartup.test_frontend_failure_also_stops_backend) ... ok
+test_http_200_with_wrong_health_payload_is_not_ready (test_startup.TestWindowsStartup.test_http_200_with_wrong_health_payload_is_not_ready) ... ok
+test_occupied_backend_port_is_rejected_without_starting_servers (test_startup.TestWindowsStartup.test_occupied_backend_port_is_rejected_without_starting_servers) ... ok
+test_occupied_frontend_port_is_rejected_without_starting_servers (test_startup.TestWindowsStartup.test_occupied_frontend_port_is_rejected_without_starting_servers) ... ok
+test_real_stack_starts_from_path_with_spaces_and_stops_on_enter (test_startup.TestWindowsStartup.test_real_stack_starts_from_path_with_spaces_and_stops_on_enter) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 66.358s
+
+OK
