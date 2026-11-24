@@ -404,7 +404,8 @@ class TestBackendWrites(APIClient, unittest.TestCase):
                           if key != "updated_at"})
         self.assertEqual(
             self.database_rows("SELECT username FROM users ORDER BY user_id"),
-            [("admin_alan",), ("customer_alice",), ("courier_chan",), ("demo",)],
+            [("admin_alan",), ("customer_alice",), ("courier_chan",), ("demo",),
+             ("admin",), ("zhangsan",), ("lisi",), ("wangwu",)],
         )
         self.assertEqual(
             self.database_rows("SELECT description FROM tracking_events WHERE shipment_id = 2 ORDER BY event_id"),

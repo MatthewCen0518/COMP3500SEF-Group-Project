@@ -24,6 +24,23 @@ python database/db_manager.py status     # schema version, row counts, indexes
 `--db PATH` points at another database file (useful for a scratch copy); `LMS_DB_PATH` is
 honoured as well, like the backend.
 
+## Demo accounts
+
+`backend/server.py` creates these on start if they are missing, so every role can be shown
+without editing the database by hand:
+
+| Username | Password | Role | Use it to show |
+| :--- | :--- | :--- | :--- |
+| `admin` | `admin123` | admin | all shipments, account management |
+| `zhangsan` | `pass1234` | customer | placing an order, own timeline |
+| `lisi` | `pass1234` | customer | a second customer, separate view |
+| `wangwu` | `pass1234` | customer | a third customer |
+| `demo` | `demo123` | admin | legacy shortcut, kept for the test suite |
+
+The three seeded rows in `schema.sql` (`admin_alan`, `customer_alice`, `courier_chan`) exist
+to populate the tables; their `password_hash` values are placeholders and they cannot log in.
+
+
 ## When to use which
 
 | Situation | Command |

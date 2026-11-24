@@ -23,6 +23,14 @@ SCHEMA_PATH = Path(__file__).resolve().parent.parent / "database" / "schema.sql"
 # Public local-development account, stored alongside all other SQLite users.
 DEMO_USERNAME = "demo"
 DEMO_PASSWORD = "demo123"
+# Extra accounts for the demonstration, so the login screen shows every role with a
+# name that can be read out loud: one administrator and three customers.
+DEMO_ACCOUNTS = (
+    ("admin", "admin123", "admin", "+852-90000001"),
+    ("zhangsan", "pass1234", "customer", "+852-90000002"),
+    ("lisi", "pass1234", "customer", "+852-90000003"),
+    ("wangwu", "pass1234", "customer", "+852-90000004"),
+)
 MAX_BODY_BYTES = 65536
 MAX_SQLITE_ID = 2**63 - 1
 SHIPMENT_STATUSES = ("pending", "shipped", "delivered")
@@ -84,6 +92,15 @@ def initialize_database(database_path):
                 "INSERT INTO users (username, password_hash, role, phone) VALUES (?, ?, ?, ?)",
                 (DEMO_USERNAME, hash_password(DEMO_PASSWORD), "admin", "+852-90000000"),
             )
+        # Named demonstration accounts: one admin and three customers. Added the same
+        # way, so an existing database is upgraded without touching any other row.
+        for username, password, role, phone in DEMO_ACCOUNTS:
+            if connection.execute("SELECT 1 FROM users WHERE username = ?",
+                                  (username,)).fetchone() is None:
+                connection.execute(
+                    "INSERT INTO users (username, password_hash, role, phone) VALUES (?, ?, ?, ?)",
+                    (username, hash_password(password), role, phone),
+                )
 
 
 SHIPMENT_SELECT = """
