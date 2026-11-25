@@ -243,24 +243,33 @@ class TestBackendInitialization(DatabaseTestCase):
         self.assertIsNotNone(committed)
         self.assertEqual(self.snapshot(), committed)
 
-    def test_v11_startup_only_adds_missing_demo_accounts(self):
-        from backend.server import DEMO_ACCOUNTS, initialize_database, verify_password
+    def test_v11_startup_only_adds_missing_demo_account(self):
+        from backend.server import initialize_database, verify_password
         self.make_v11_db()
         before = self.snapshot()
         initialize_database(self.db)
         demo = self.query("SELECT * FROM users WHERE username = 'demo'")[0]
         self.assertTrue(verify_password("demo123", demo["password_hash"]))
         self.assertEqual(demo["role"], "admin")
-        for username, password, role, _phone in DEMO_ACCOUNTS:
-            row = self.query("SELECT * FROM users WHERE username = ?", (username,))[0]
-            self.assertTrue(verify_password(password, row["password_hash"]))
-            self.assertEqual(row["role"], role)
-        # Remove only the expected additions to compare every legacy row/object/version.
+        # Remove only the expected addition to compare every legacy row/object/version.
         self.execute("DELETE FROM users WHERE username = 'demo'")
-        for username, *_ in DEMO_ACCOUNTS:
-            self.execute("DELETE FROM users WHERE username = ?", (username,))
         self.execute("UPDATE sqlite_sequence SET seq = 2 WHERE name = 'users'")
         self.assertEqual(self.snapshot(), before)
+
+    def test_named_demo_seed_preserves_existing_users_and_is_idempotent(self):
+        from backend.server import initialize_database
+        self.make_v11_db()
+        self.execute(
+            "INSERT INTO users (username, password_hash, role, phone) VALUES (?, ?, ?, ?)",
+            ("admin", "existing-password-hash", "customer", "+852-90000001"),
+        )
+        admin_query = "SELECT * FROM users WHERE username = 'admin'"
+        original_admin = self.query(admin_query)
+        initialize_database(self.db, named_demo=True)
+        self.assertEqual(self.query(admin_query), original_admin)
+        seeded = self.snapshot()
+        initialize_database(self.db, named_demo=True)
+        self.assertEqual(self.snapshot(), seeded)
 
     def test_v12_restart_preserves_password_stock_and_extra_tables(self):
         from backend.server import initialize_database, hash_password
